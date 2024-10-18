@@ -46,4 +46,14 @@ def list_files_matching_regex(pattern):
     except NoCredentialsError:
         print("Credentials not available.")
 
-list_files_matching_regex("READ*")
+def upload_file(file_path, destination_key):
+    try:
+        s3.upload_file(file_path, S3_BUCKET_NAME, destination_key)
+        print(f"File {file_path} uploaded successfully to {destination_key}.")
+    except FileNotFoundError:
+        print(f"The file {file_path} was not found.")
+    except NoCredentialsError:
+        print("Credentials not available.")
+
+upload_file("test.txt","TIE-sa/test.txt")
+list_files()
