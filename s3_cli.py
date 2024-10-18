@@ -32,5 +32,18 @@ def list_files():
             print("No files found.")
     except NoCredentialsError:
         print("Credentials not available.")
-        
-list_files()
+
+def list_files_matching_regex(pattern):
+    try:
+        response = s3.list_objects_v2(Bucket=S3_BUCKET_NAME, Prefix=S3_PREFIX)
+        if 'Contents' in response:
+            regex = re.compile(pattern)
+            for obj in response['Contents']:
+                if regex.search(obj['Key']):
+                    print(obj['Key'])
+        else:
+            print("No files found.")
+    except NoCredentialsError:
+        print("Credentials not available.")
+
+list_files_matching_regex("READ*")
