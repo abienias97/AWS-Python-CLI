@@ -55,5 +55,28 @@ def upload_file(file_path, destination_key):
     except NoCredentialsError:
         print("Credentials not available.")
 
-upload_file("test.txt","TIE-sa/test.txt")
+def delete_files_matching_regex(pattern):
+    try:
+        response = s3.list_objects_v2(Bucket=S3_BUCKET_NAME, Prefix=S3_PREFIX)
+        if 'Contents' in response:
+            regex = re.compile(pattern)
+            keys_to_delete = [{'Key': obj['Key']} for obj in response['Contents'] if regex.search(obj['Key'])]
+            
+            if keys_to_delete:
+                s3.delete_objects(
+                    Bucket=S3_BUCKET_NAME,
+                    Delete={
+                        'Objects': keys_to_delete,
+                        'Quiet': True
+                    }
+                )
+                print(f"Deleted {len(keys_to_delete)} files.")
+            else:
+                print("No files matched the pattern.")
+        else:
+            print("No files found.")
+    except NoCredentialsError:
+        print("Credentials not available.")
+
+delete_files_matching_regex('test*')
 list_files()
