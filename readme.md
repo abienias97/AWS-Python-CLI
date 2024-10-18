@@ -20,11 +20,11 @@ S3_PREFIX=prefix
 
 ## Features with examples:
 
-    - List files in bucket
-    `python s3_cli.py list`
-    - List files matching REGEX in bucket
-    `python s3_cli.py list-regex --pattern ".*.txt"`
-    - Upload file to specific location in bucket
-    `python s3_cli.py upload --file test.txt --destination test/test.txt`
-    - Delete files matching REGEX in bucket
-    `python s3_cli.py delete-regex --pattern ".*.log"`
+- List files in bucket  
+`python s3_cli.py list`
+- List files matching REGEX in bucket  
+`python s3_cli.py list-regex --pattern ".*.txt"`
+- Upload file to specific location in bucket  
+`python s3_cli.py upload --file test.txt --destination test/test.txt`
+- Delete files matching REGEX in bucket  
+`python s3_cli.py delete-regex --pattern ".*.log"`
