@@ -78,5 +78,30 @@ def delete_files_matching_regex(pattern):
     except NoCredentialsError:
         print("Credentials not available.")
 
-delete_files_matching_regex('test*')
-list_files()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="S3 Bucket Operations")
+    
+    parser.add_argument("operation", choices=["list", "upload", "list-regex", "delete-regex"], help="Operation to perform")
+    parser.add_argument("--file", type=str, help="Local file path to upload")
+    parser.add_argument("--destination", type=str, help="S3 destination key (for upload)")
+    parser.add_argument("--pattern", type=str, help="Regex pattern to filter files")
+
+    args = parser.parse_args()
+
+    if args.operation == "list":
+        list_files()
+    elif args.operation == "upload":
+        if args.file and args.destination:
+            upload_file(args.file, args.destination)
+        else:
+            print("Please provide both --file and --destination arguments for upload.")
+    elif args.operation == "list-regex":
+        if args.pattern:
+            list_files_matching_regex(args.pattern)
+        else:
+            print("Please provide a --pattern argument for filtering.")
+    elif args.operation == "delete-regex":
+        if args.pattern:
+            delete_files_matching_regex(args.pattern)
+        else:
+            print("Please provide a --pattern argument for deleting files.")
